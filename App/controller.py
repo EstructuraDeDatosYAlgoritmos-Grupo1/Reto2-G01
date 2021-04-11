@@ -26,6 +26,7 @@ import tracemalloc
 import config as cf
 import model
 import csv
+from DISClib.ADT import list as lt
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -47,8 +48,9 @@ def loadData(catalog):
     start_time = getTime()
     start_memory = getMemory()
 
-    loadVideos(catalog)
     loadCategories(catalog)
+    loadVideos(catalog)
+    
 
     stop_memory = getMemory()
     stop_time = getTime()
@@ -60,7 +62,7 @@ def loadData(catalog):
     return delta_time, delta_memory
 
 def loadVideos(catalog):
-    videosfile =  cf.data_dir + 'Samples/videos-10pct.csv'
+    videosfile =  cf.data_dir + 'Samples/videos-5pct.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -71,6 +73,7 @@ def loadCategories(catalog):
     input_file = csv.DictReader(open(categoryfile, encoding='utf-8'), delimiter='\t')
     for category in input_file:
         model.addCategory(catalog, category)
+        model.addCategoryVideo(catalog, category)
 
 # Funciones de ordenamiento
 
@@ -92,7 +95,27 @@ def firstRequirement(catalog, bestCategory):
         mergeSortByViews(result)
         return result
     
+def secondRequirement():
+    pass
 
+def thirdRequirement(catalog, bestCategory):
+    bestCategoryId = model.findCategoryid(catalog,bestCategory)
+    if bestCategoryId == -1:
+        return -1
+    else:
+        results = model.thirdRequirement(catalog, bestCategoryId)
+        #results = videoMayor,repsMayor
+        return results
+
+def forthRequirement(catalog,bestCountry,bestTag):
+    videoList = model.fourthRequirement(catalog, bestCountry)
+    tagList = lt.newList(datastructure="SINGLE_LINKED")
+    for video in lt.iterator(videoList):
+        if bestTag in video["tags"]:
+            lt.addLast(tagList, video)
+    sortedList = mergeSortBylikes(tagList)
+    return sortedList
+    
 
 def getTime():
     """
