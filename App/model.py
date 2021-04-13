@@ -113,9 +113,13 @@ def firstRequirement(catalog, bestCategoryId):
     videosCategory= mp.get(catalog["categoryVideos"],int(bestCategoryId))
     return me.getValue(videosCategory)["videos"]
 
-def secondRequirement():
-    pass
+def secondRequirement(catalog, country1):
+    videosCountry = mp.get(catalog["countryVideos"], country1)
+    videoList = me.getValue(videosCountry)["videos"]
+    sortedList = mergeSortByVideoId(videoList)
+    return findTopVideoByTrendingTime(sortedList)
 
+    
 def thirdRequirement(catalog, bestCategoryId):
     videosCategory = mp.get(catalog["categoryVideos"], int(bestCategoryId))
     videoList = me.getValue(videosCategory)["videos"]
@@ -161,6 +165,15 @@ def findCategoryid(catalog, category):
         if (cat["name"].strip().lower() == category.strip().lower()):
             return cat["id"]
     return -1
+
+def findCountry(catalog, country):
+    if mp.contains(catalog["countryVideos"],country.strip().lower()):
+       country1 = mp.get(catalog["countryVideos"],country.strip().lower())
+       return me.getValue(country1)['country']
+    else:
+       return -1
+
+    
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
