@@ -113,13 +113,8 @@ def thirdRequirement(catalog, bestCategory):
         return results
 
 def forthRequirement(catalog,bestCountry,bestTag):
-    videoList = model.fourthRequirement(catalog, bestCountry)
-    tagList = lt.newList(datastructure="SINGLE_LINKED")
-    for video in lt.iterator(videoList):
-        if bestTag in video["tags"]:
-            lt.addLast(tagList, video)
-    sortedList = mergeSortBylikes(tagList)
-    return sortedList
+    videoList = model.fourthRequirement(catalog, bestCountry, bestTag)
+    return videoList
     
 
 def getTime():

@@ -126,9 +126,16 @@ def thirdRequirement(catalog, bestCategoryId):
     sortedList = mergeSortByVideoId(videoList)
     return findTopVideoByTrendingTime(sortedList)
 
-def fourthRequirement(catalog,country):
+def fourthRequirement(catalog,country, bestTag):
     videosCountry = mp.get(catalog["countryVideos"], country.lower().strip())
-    return me.getValue(videosCountry)["videos"]
+    videoList = me.getValue(videosCountry)["videos"]
+    tagList = lt.newList(datastructure="SINGLE_LINKED")
+    for video in lt.iterator(videoList):
+        if bestTag in video["tags"]:
+            lt.addLast(tagList, video)
+    sortedList = mergeSortBylikes(tagList)
+    return sortedList
+
 
 
 def repCountForVideo(sortedCatalog,videoid,initialPos):
