@@ -105,7 +105,8 @@ while True:
             print("Ingrese un entero positivo mayor a 0 y menor a ", lt.size(catalog["videos"]))
         else:
             bestCategory = str(input("Ingrese la categoria de videos que desea consultar: ")).strip().lower()
-            results1 = controller.firstRequirement(catalog, bestCategory)
+            bestCountry = str(input("Ingrese el país de los videos que desea consultar: ")).strip().lower()
+            results1 = controller.firstRequirement(catalog, bestCategory, bestCountry)
             printResultsReq1(results1[0], numberVideos)
             print("Tiempo [ms]: ", f"{results1[1]:.3f}", "  ||  ",
               "Memoria [kB]: ", f"{results1[2]:.3f}")

@@ -86,7 +86,7 @@ def mergeSortByViews(videoList):
 # Funciones de consulta sobre el catálogo
 
 
-def firstRequirement(catalog, bestCategory):
+def firstRequirement(catalog, bestCategory, bestCountry):
     delta_time = -1.0
     delta_memory = -1.0
 
@@ -99,7 +99,7 @@ def firstRequirement(catalog, bestCategory):
         tracemalloc.stop()
         return -1
     else:
-        result = model.firstRequirement(catalog, bestCategoryId)
+        result = model.firstRequirement(catalog, bestCategoryId, bestCountry)
         mergeSortByViews(result)
         stop_memory = getMemory()
         stop_time = getTime()
