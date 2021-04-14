@@ -101,7 +101,7 @@ def newCategoryVideos(categoryId):
 
 def newCountryVideos(country):
     entry = {"country": "", "videos": None}
-    entry["country"]= country
+    entry["country"]= country.strip().lower()
     entry["videos"] = lt.newList(datastructure="SINGLE_LINKED")
     return entry
 

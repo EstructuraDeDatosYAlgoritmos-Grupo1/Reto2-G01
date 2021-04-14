@@ -111,7 +111,7 @@ def forthRequirement(catalog,bestCountry,bestTag):
     videoList = model.fourthRequirement(catalog, bestCountry)
     tagList = lt.newList(datastructure="SINGLE_LINKED")
     for video in lt.iterator(videoList):
-        if bestTag in video["tags"]:
+        if bestTag.lower().strip() in video["tags"].lower().strip():
             lt.addLast(tagList, video)
     sortedList = mergeSortBylikes(tagList)
     return sortedList
