@@ -109,9 +109,14 @@ def newCountryVideos(country):
 # Funciones de consulta
 
 
-def firstRequirement(catalog, bestCategoryId):
+def firstRequirement(catalog, bestCategoryId, bestCountry):
     videosCategory= mp.get(catalog["categoryVideos"],int(bestCategoryId))
-    return me.getValue(videosCategory)["videos"]
+    videosCategoryList = me.getValue(videosCategory)["videos"]
+    videosCategoryCountry = lt.newList(datastructure="SINGLE_LINKED")
+    for vid in lt.iterator(videosCategoryList):
+        if vid['country'] == bestCountry:
+            lt.addLast(videosCategoryCountry, vid)
+    return videosCategoryCountry
 
 def secondRequirement(catalog, country):
     videosCountry = mp.get(catalog["countryVideos"], country)
