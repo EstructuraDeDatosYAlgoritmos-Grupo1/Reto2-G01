@@ -113,7 +113,7 @@ def thirdRequirement(catalog, bestCategory):
         return results
 
 def forthRequirement(catalog,bestCountry,bestTag):
-    videoList = model.fourthRequirement(catalog, bestCountry)
+    videoList = model.fourthRequirement(catalog, bestCountry, bestTag)
     tagList = lt.newList(datastructure="SINGLE_LINKED")
     for video in lt.iterator(videoList):
         if bestTag.lower().strip() in video["tags"].lower().strip():
