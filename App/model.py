@@ -113,8 +113,8 @@ def firstRequirement(catalog, bestCategoryId):
     videosCategory= mp.get(catalog["categoryVideos"],int(bestCategoryId))
     return me.getValue(videosCategory)["videos"]
 
-def secondRequirement(catalog, country1):
-    videosCountry = mp.get(catalog["countryVideos"], country1)
+def secondRequirement(catalog, country):
+    videosCountry = mp.get(catalog["countryVideos"], country)
     videoList = me.getValue(videosCountry)["videos"]
     sortedList = mergeSortByVideoId(videoList)
     return findTopVideoByTrendingTime(sortedList)
@@ -173,12 +173,6 @@ def findCategoryid(catalog, category):
             return cat["id"]
     return -1
 
-def findCountry(catalog, country):
-    if mp.contains(catalog["countryVideos"],country.strip().lower()):
-       country1 = mp.get(catalog["countryVideos"],country.strip().lower())
-       return me.getValue(country1)['country']
-    else:
-       return -1
 
     
 

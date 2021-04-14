@@ -87,39 +87,93 @@ def mergeSortByViews(videoList):
 
 
 def firstRequirement(catalog, bestCategory):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     bestCategoryId = model.findCategoryid(catalog,bestCategory)
     if bestCategoryId == -1:
+        tracemalloc.stop()
         return -1
     else:
         result = model.firstRequirement(catalog, bestCategoryId)
         mergeSortByViews(result)
-        return result
+        stop_memory = getMemory()
+        stop_time = getTime()
+        tracemalloc.stop()
+
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        return result, delta_time, delta_memory
     
 def secondRequirement(catalog, country):
-    country1 = model.findCountry(catalog, country)
-    if country1 == -1:
-        return -1
-    else:
-        result = model.secondRequirement(catalog,country1)
-        return result
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+#------------------------------------------------------------
+    results = model.secondRequirement(catalog,country)
+#------------------------------------------------------------
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+
+    return results[0],results[1],delta_time,delta_memory
 
 def thirdRequirement(catalog, bestCategory):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     bestCategoryId = model.findCategoryid(catalog,bestCategory)
     if bestCategoryId == -1:
+        tracemalloc.stop()
         return -1
     else:
         results = model.thirdRequirement(catalog, bestCategoryId)
-        #results = videoMayor,repsMayor
-        return results
+        stop_memory = getMemory()
+        stop_time = getTime()
+        tracemalloc.stop()
+
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        return results[0],results[1],delta_time,delta_memory
 
 def forthRequirement(catalog,bestCountry,bestTag):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
     videoList = model.fourthRequirement(catalog, bestCountry, bestTag)
     tagList = lt.newList(datastructure="SINGLE_LINKED")
     for video in lt.iterator(videoList):
         if bestTag.lower().strip() in video["tags"].lower().strip():
             lt.addLast(tagList, video)
     sortedList = mergeSortBylikes(tagList)
-    return sortedList
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return sortedList, delta_time, delta_memory
 
     
 

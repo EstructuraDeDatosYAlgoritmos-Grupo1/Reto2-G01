@@ -56,24 +56,22 @@ def loadData(catalog):
 
 def printResultsReq1(videoList, numberVideos):
     counter = 0
-    for video in lt.iterator(result):
+    for video in lt.iterator(videoList):
         print("Title: ", video["title"], "| Trending date: ", video["trending_date"], "| Channel title", video["channel_title"],
         "| Publish time: ", video["publish_time"], "| Views: ", video["views"], "| Likes: ", video["likes"], "| Dislikes: ", video["dislikes"])
         counter +=1
         if counter == numberVideos:
             break
 
-def printResultsReq2(results):
-    video = results[0]
-    print('Titulo: ' + video["title"]+"\nTitulo del canal: " + video["channel_title"] + "\nCategory_id "+ video["category_id"] + "\nDias: " + str(results[1]))
+def printResultsReq2(video, results):
+    print('Titulo: ' + video["title"]+"\nTitulo del canal: " + video["channel_title"] + "\nCategory_id "+ video["category_id"] + "\nDias: " + str(results))
 
-def printResultsReq3(results):
-    video = results[0]
-    print('Titulo: ' + video["title"]+"\nTitulo del canal: " + video["channel_title"] + "\nCategory_id "+ video["category_id"] + "\nDias: " + str(results[1]))
+def printResultsReq3(video, results2):
+    print('Titulo: ' + video["title"]+"\nTitulo del canal: " + video["channel_title"] + "\nCategory_id "+ video["category_id"] + "\nDias: " + str(results2))
 
 def printResultsReq4(videoList,numberVideos):
     counter = 0
-    for video in lt.iterator(result):
+    for video in lt.iterator(videoList):
         print("Title: ", video["title"], "| Trending date: ", video["trending_date"], "| Channel title", video["channel_title"],
         "| Publish time: ", video["publish_time"], "| Views: ", video["views"], "| Likes: ", video["likes"], "| Dislikes: ", video["dislikes"], "| Tags: ", video["tags"])
         counter +=1
@@ -107,29 +105,36 @@ while True:
             print("Ingrese un entero positivo mayor a 0 y menor a ", lt.size(catalog["videos"]))
         else:
             bestCategory = str(input("Ingrese la categoria de videos que desea consultar: ")).strip().lower()
-            result = controller.firstRequirement(catalog, bestCategory)
-            printResultsReq1(result, numberVideos)
+            results1 = controller.firstRequirement(catalog, bestCategory)
+            printResultsReq1(results1[0], numberVideos)
+            print("Tiempo [ms]: ", f"{results1[1]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{results1[2]:.3f}")
     
     elif int(inputs[0]) == 3:
         country = str(input("Ingrese el país de los videos que desea consultar: ")).strip().lower()
-        result = controller.secondRequirement(catalog, country)
-        if result == -1:
+        results2 = controller.secondRequirement(catalog, country)
+        if results2[0] == -1:
             print('Ingrese un país valido')
         else:
-            printResultsReq2(result) 
+            printResultsReq2(results2[0],results2[1]) 
+            print("Tiempo [ms]: ", f"{results2[2]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{results2[3]:.3f}")
 
     elif int(inputs[0]) == 4:
         bestCategory = str(input("Ingrese la categoria de videos que desea consultar: ")).strip().lower()
-        results = controller.thirdRequirement(catalog, bestCategory)
-        printResultsReq3(results)
+        results3 = controller.thirdRequirement(catalog, bestCategory)
+        printResultsReq3(results3[0],results3[1])
+        print("Tiempo [ms]: ", f"{results3[2]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{results3[3]:.3f}")
 
     elif int(inputs[0]) == 5:
         numberVideos = int(input("Ingrese el número de videos con más likes que desea encontrar: "))
         bestCountry = input("Ingrese el pais sobre el cual quiere encontrar los videos con mas likes: ").lower()
         bestTag = input("Ingrese el tag de videos que desea consultar: ")
-        result = controller.forthRequirement(catalog,bestCountry,bestTag)
-        printResultsReq4(result,numberVideos)
-        print("Estos son el top " + str(numberVideos)+ " videos encontrados para el pais y la categoria.")
+        results4 = controller.forthRequirement(catalog,bestCountry,bestTag)
+        printResultsReq4(results4[0],numberVideos)
+        print("Tiempo [ms]: ", f"{results4[1]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{results4[2]:.3f}")
             
 
 
