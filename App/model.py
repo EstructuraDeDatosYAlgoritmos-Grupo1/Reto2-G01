@@ -113,18 +113,29 @@ def firstRequirement(catalog, bestCategoryId):
     videosCategory= mp.get(catalog["categoryVideos"],int(bestCategoryId))
     return me.getValue(videosCategory)["videos"]
 
-def secondRequirement():
-    pass
+def secondRequirement(catalog, country1):
+    videosCountry = mp.get(catalog["countryVideos"], country1)
+    videoList = me.getValue(videosCountry)["videos"]
+    sortedList = mergeSortByVideoId(videoList)
+    return findTopVideoByTrendingTime(sortedList)
 
+    
 def thirdRequirement(catalog, bestCategoryId):
     videosCategory = mp.get(catalog["categoryVideos"], int(bestCategoryId))
     videoList = me.getValue(videosCategory)["videos"]
     sortedList = mergeSortByVideoId(videoList)
     return findTopVideoByTrendingTime(sortedList)
 
-def fourthRequirement(catalog,country):
+def fourthRequirement(catalog,country, bestTag):
     videosCountry = mp.get(catalog["countryVideos"], country.lower().strip())
-    return me.getValue(videosCountry)["videos"]
+    videoList = me.getValue(videosCountry)["videos"]
+    tagList = lt.newList(datastructure="SINGLE_LINKED")
+    for video in lt.iterator(videoList):
+        if bestTag in video["tags"]:
+            lt.addLast(tagList, video)
+    sortedList = mergeSortBylikes(tagList)
+    return sortedList
+
 
 
 def repCountForVideo(sortedCatalog,videoid,initialPos):
@@ -161,6 +172,15 @@ def findCategoryid(catalog, category):
         if (cat["name"].strip().lower() == category.strip().lower()):
             return cat["id"]
     return -1
+
+def findCountry(catalog, country):
+    if mp.contains(catalog["countryVideos"],country.strip().lower()):
+       country1 = mp.get(catalog["countryVideos"],country.strip().lower())
+       return me.getValue(country1)['country']
+    else:
+       return -1
+
+    
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista

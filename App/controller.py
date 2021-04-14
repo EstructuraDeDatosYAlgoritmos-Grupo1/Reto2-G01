@@ -95,8 +95,13 @@ def firstRequirement(catalog, bestCategory):
         mergeSortByViews(result)
         return result
     
-def secondRequirement():
-    pass
+def secondRequirement(catalog, country):
+    country1 = model.findCountry(catalog, country)
+    if country1 == -1:
+        return -1
+    else:
+        result = model.secondRequirement(catalog,country1)
+        return result
 
 def thirdRequirement(catalog, bestCategory):
     bestCategoryId = model.findCategoryid(catalog,bestCategory)
@@ -115,6 +120,7 @@ def forthRequirement(catalog,bestCountry,bestTag):
             lt.addLast(tagList, video)
     sortedList = mergeSortBylikes(tagList)
     return sortedList
+
     
 
 def getTime():

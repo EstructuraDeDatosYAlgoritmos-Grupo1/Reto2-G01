@@ -63,8 +63,9 @@ def printResultsReq1(videoList, numberVideos):
         if counter == numberVideos:
             break
 
-def printResultsReq2():
-    pass
+def printResultsReq2(results):
+    video = results[0]
+    print('Titulo: ' + video["title"]+"\nTitulo del canal: " + video["channel_title"] + "\nCategory_id "+ video["category_id"] + "\nDias: " + str(results[1]))
 
 def printResultsReq3(results):
     video = results[0]
@@ -110,7 +111,12 @@ while True:
             printResultsReq1(result, numberVideos)
     
     elif int(inputs[0]) == 3:
-        printResultsReq2()
+        country = str(input("Ingrese el país de los videos que desea consultar: ")).strip().lower()
+        result = controller.secondRequirement(catalog, country)
+        if result == -1:
+            print('Ingrese un país valido')
+        else:
+            printResultsReq2(result) 
 
     elif int(inputs[0]) == 4:
         bestCategory = str(input("Ingrese la categoria de videos que desea consultar: ")).strip().lower()
